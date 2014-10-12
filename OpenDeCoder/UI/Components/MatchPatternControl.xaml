@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="OpenDeCoder.UI.MatchPatternControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="40" d:designWidth="500" Name="This" Background="Transparent" MouseLeftButtonDown="This_MouseLeftButtonDown" >
+    <UserControl.Resources>
+        <Storyboard x:Key="OpenControl" Storyboard.TargetName="This" Storyboard.TargetProperty="Height">
+            <DoubleAnimation To="40" Duration="00:00:00.1" />
+        </Storyboard>
+        <Storyboard x:Key="CloseControl" Storyboard.TargetName="This" Storyboard.TargetProperty="Height">
+            <DoubleAnimation To="20" Duration="00:00:00.1" />
+        </Storyboard>
+        <Storyboard x:Key="SuccesColorAnim">
+            <!--<ColorAnimation To="#FF008000" Duration="00:00:00.3" Storyboard.TargetName="NameBlock" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" />-->
+            <ColorAnimation To="#FF008000" Duration="00:00:00.3" Storyboard.TargetName="DecorLine" Storyboard.TargetProperty="Stroke.(SolidColorBrush.Color)" />
+            <ColorAnimation To="#20008000" Duration="00:00:00.3" Storyboard.TargetName="This" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" />
+        </Storyboard>
+        <Storyboard x:Key="PartialColorAnim">
+            <!--<ColorAnimation To="#FFA08000" Duration="00:00:00.3" Storyboard.TargetName="NameBlock" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" />-->
+            <ColorAnimation To="#FFA08000" Duration="00:00:00.3" Storyboard.TargetName="DecorLine" Storyboard.TargetProperty="Stroke.(SolidColorBrush.Color)" />
+            <ColorAnimation To="#20A08000" Duration="00:00:00.3" Storyboard.TargetName="This" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" />
+        </Storyboard>
+        <Storyboard x:Key="CollapsedColorAnim">
+            <!--<ColorAnimation To="#FFA08000" Duration="00:00:00.3" Storyboard.TargetName="NameBlock" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" />-->
+            <ColorAnimation To="#FF808080" Duration="00:00:00.3" Storyboard.TargetName="DecorLine" Storyboard.TargetProperty="Stroke.(SolidColorBrush.Color)" />
+            <ColorAnimation To="#20808080" Duration="00:00:00.3" Storyboard.TargetName="This" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" />
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid>
+        <TextBlock Name="NameBlock" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,20" FontSize="16" Text="Pattern" />
+        <TextBlock Name="RegexBlock" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,0,10,5" FontSize="10" Text="[a-zA-Z]+" Foreground="Gray" />
+        <Line Name="DecorLine" X1="20" Y1="40" Y2="40" X2="{Binding ElementName=This, Path=ActualWidth}" Stroke="Black"  StrokeThickness="2"/>
+    </Grid>
+</UserControl>

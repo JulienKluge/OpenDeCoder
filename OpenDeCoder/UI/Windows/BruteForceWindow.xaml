@@ -1,0 +1,112 @@
+﻿<MetroControls:MetroWindow x:Class="OpenDeCoder.UI.BruteForceWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:MetroControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:OpenDeCoderUI="clr-namespace:OpenDeCoder.UI"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             Width="700" Height="450" Title="Brute Force Solver" ResizeMode="NoResize" EnableDWMDropShadow="True" WindowStartupLocation="CenterOwner"
+             NonActiveWindowTitleBrush="{StaticResource AccentColorBrush}" Closing="MetroWindow_Closing">
+    <MetroControls:MetroWindow.Icon>
+        <BitmapImage UriSource="/OpenDeCoder;component/Res/WindowTitleSign.png" />
+    </MetroControls:MetroWindow.Icon>
+    <MetroControls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/OpenDeCoder;component/AppResources.xaml" />
+                <ResourceDictionary>
+                    <Storyboard x:Key="StartUIAnim">
+                        <DoubleAnimation Duration="00:00:00.2" To="1" Storyboard.TargetName="Overlay_Left" Storyboard.TargetProperty="Opacity" />
+                        <DoubleAnimation Duration="00:00:00.2" To="0" Storyboard.TargetName="Overlay_Right" Storyboard.TargetProperty="Opacity" />
+                    </Storyboard>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </MetroControls:MetroWindow.Resources>
+    <Grid x:Name="MainBFGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <TextBox Name="PatternBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,5,5,0" Height="100" AcceptsTab="True" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,115,0,0" Text="Iteration Depth: " Grid.Column="0" />
+        <TextBlock Name="RegisteredCoderBox" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,5,0" Text="0 registered coder" Grid.Column="0" />
+        <TextBlock Name="RegisteredBFCoderBox" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,130,5,0" Text="0 brute force able" Grid.Column="0" />
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,145,0,0" Text="Thread Count: " Grid.Column="0" />
+        <ComboBox Name="DepthBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,110,0,0" Width="100" Grid.Column="0">
+            <ComboBox.Items>
+                <ComboBoxItem Content="1" />
+                <ComboBoxItem Content="2" />
+                <ComboBoxItem Content="3" IsSelected="True" />
+                <ComboBoxItem Content="4" />
+                <ComboBoxItem Content="5" />
+                <ComboBoxItem Content="6" />
+            </ComboBox.Items>
+        </ComboBox>
+        <ComboBox Name="ThreadCountBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,140,0,0" Width="100" Grid.Column="0">
+            <ComboBox.Items>
+                <ComboBoxItem Content="1" />
+                <ComboBoxItem Content="2" IsSelected="True" />
+                <ComboBoxItem Content="3" />
+                <ComboBoxItem Content="4" />
+                <ComboBoxItem Content="5" />
+                <ComboBoxItem Content="6" />
+                <ComboBoxItem Content="7" />
+                <ComboBoxItem Content="8" />
+                <ComboBoxItem Content="9" />
+                <ComboBoxItem Content="10" />
+                <ComboBoxItem Content="11" />
+                <ComboBoxItem Content="12" />
+                <ComboBoxItem Content="13" />
+                <ComboBoxItem Content="14" />
+                <ComboBoxItem Content="15" />
+                <ComboBoxItem Content="16" />
+            </ComboBox.Items>
+        </ComboBox>
+        <CheckBox Name="PreProcessBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,170,0,0" Content="Pre-process solutions" IsChecked="True" Grid.Column="0" />
+        <CheckBox Name="StopOnSolutionBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,195,0,0" Content="Stop when possible solution found" Grid.Column="0" />
+        <CheckBox Name="DropStrangePatternBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,220,0,0" Content="Drop strange patterns" IsChecked="True" Grid.Column="0" />
+        <Button Name="StartButton" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,210,5,5" Content="Start" Width="100" Grid.Column="0" Click="StartButton_Click" Style="{StaticResource AccentedSquareButtonStyle}" />
+        <DataGrid Name="CoderGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,240,0,0" SelectionMode="Single" IsReadOnly="False" AutoGenerateColumns="False" AlternatingRowBackground="{StaticResource AccentColorBrush4}" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Use" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsDefault, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Coder Name" Width="*" FontFamily="Consolas" IsReadOnly="True" Binding="{Binding Path=Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <MetroControls:MetroProgressBar Name="StateProgress" HorizontalAlignment="Stretch" VerticalAlignment="Top" Value="1" Minimum="0" Maximum="1" Grid.Column="1" />
+        <TextBlock Name="GeneratedBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,15,0,0" Grid.Column="1" Text="Generated: " />
+        <TextBlock Name="CheckedBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,35,0,0" Grid.Column="1" Text="Checked: " />
+        <TextBlock Name="SolutionBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" Grid.Column="1" Text="Possible solutions: " />
+        <TextBlock Name="StepBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,75,0,0" Grid.Column="1" Text="Current step: " />
+        <StackPanel Name="ActivePanel" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="25" Margin="5,95,0,0" Orientation="Horizontal" Grid.Column="1">
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="1,0,1,0" Grid.Column="1" ThreadNumber="1" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="2" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="3" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="4" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="5" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="6" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="7" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="8" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="9" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="10" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="11" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="12" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="13" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="14" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="15" IsEnabled="False" />
+            <OpenDeCoderUI:ThreadStatePanel  Width="20" Height="25" Margin="0,0,1,0" Grid.Column="1" ThreadNumber="16" IsEnabled="False" />
+        </StackPanel>
+        <TextBlock Name="TimeRemainingBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,120,0,0" Grid.Column="1" Text="Approximate time remaining for step: 0 seconds" />
+        <Button Name="StopButton" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,5" Content="Stop" Width="100" Grid.Column="1" Click="StopButton_Click" Style="{StaticResource AccentedSquareButtonStyle}" />
+        <ListView Name="ResultView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,140,0,40" Grid.Column="1" BorderThickness="0,1,0,1" BorderBrush="{StaticResource AccentColorBrush}" />
+
+        <Rectangle Name="Overlay_Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#66000000" Grid.Column="0" IsHitTestVisible="False" Opacity="0" />
+        <Rectangle Name="Overlay_Right" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#66000000" Grid.Column="1" IsHitTestVisible="True" Opacity="1" />
+    </Grid>
+</MetroControls:MetroWindow>

@@ -1,0 +1,23 @@
+<Patterns>
+  <!--Name: Name of the pattern displayed in the program.-->
+  <!--Type: 1:exact passcode definition; 2: possible passcode definition; 3: reserved for keyword regex; 4: other things-->
+  <!--BruteForce: define 1 if the coder should registered as a brute force solution otherwise 0-->
+  <!--Inner Text: A regex describing your pattern. It's alsway case insensetive, explicit and culture invariant.-->
+  <Pattern Name="Ingress Passcode 1"			  Type="1" BruteForce="1">[2-9][p-z][a-h][2-9][a-z]+[p-z][2-9][p-z][2-9][p-z]?</Pattern>
+  <Pattern Name="Ingress Passcode 2"			  Type="1" BruteForce="1">[2-9][p-z]{2}[a-h][2-9][a-z]+[p-z][2-9]{3}[p-z]</Pattern>
+  <Pattern Name="Ingress Passcode 3"			  Type="1" BruteForce="1">[2-9][a-z]{3}[2-9][a-z]+[a-z][2-9][a-z][2-9][a-z]</Pattern>
+  <Pattern Name="Ingress Passcode 4 Hybrid"	Type="1" BruteForce="1">[2-9][p-z][a-h][2-9][a-z]+[p-z][2-9]{3}[p-z]</Pattern>
+  <Pattern Name="Ingress Passcode 5 Vi"		  Type="1" BruteForce="1">[a-z]+[0-9][a-z]{2}[0-9]{2}[a-z]{2}[0-9]</Pattern>
+  <Pattern Name="Ingress Passcode 6 Short"	Type="1" BruteForce="1">[a-z]+[1-9]{2}[a-z]</Pattern>
+  <Pattern Name="Ingress Passcode 7 Mod"	  Type="1" BruteForce="1">[2-9][p-z][2-9][p-z][a-h][a-z0-9]{4,}[2-9]{3}[p-z]</Pattern>
+	
+  <Pattern Name="Ingress Possible Passcode"	Type="2" BruteForce="0">((?=[a-z]*[0-9])(?=[0-9]*[a-z])[a-z0-9]{6,})</Pattern>
+	
+  <!--The next line is implementing the keywordregex with a variable replaced in the program.-->
+  <Pattern Name="Ingress Keywords"			    Type="3" BruteForce="0">%ODC_IKeywordsRegex%</Pattern>
+	
+  <Pattern Name="Hexadecimal"					      Type="4" BruteForce="0">\b(0x)?[a-f0-9]{2,}\b</Pattern>
+  <Pattern Name="Base64"						        Type="4" BruteForce="0">[a-z0-9\+/]{2,}={0,2}</Pattern>
+  <Pattern Name="Morse"						          Type="4" BruteForce="0">[_\-–—•…\. ]{2,}</Pattern>
+	
+</Patterns>
