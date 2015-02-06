@@ -91,13 +91,25 @@ namespace OpenDeCoder.Coding
                     if (IsCharValidBase64(c[i]))
                     { dataList.Add(c[i]); }
                 }
+                bool InEqualSection = true;
+                int EqualSectionSize = 0;
                 if (dataList.Count > 3)
                 {
-                    for (int i = dataList.Count - 3; i >= 0; --i)
+                    for (int i = dataList.Count - 1; i >= 0; --i)
                     {
                         if (dataList[i] == '=')
                         {
-                            dataList.RemoveAt(i);
+                            EqualSectionSize++;
+                            if (EqualSectionSize == 3)
+                            { InEqualSection = false; }
+                            if (!InEqualSection)
+                            {
+                                dataList.RemoveAt(i);
+                            }
+                        }
+                        else
+                        {
+                            InEqualSection = false;
                         }
                     }
                 }
