@@ -450,7 +450,7 @@ namespace OpenDeCoder.UI
 
         /// <summary>
         /// This method is used, to detect strange patterns. 
-        /// It is allowing following characters: ascii, whitespace, length above 4
+        /// It is allowing following characters: ascii, whitespace, length above 3, length under 1001
         /// 
         /// It seems, that this is totally waste of time, but it isn't!
         /// You have to see, that one pattern in iteration-level 1: can result in million patterns in iteration-level 5
@@ -461,7 +461,7 @@ namespace OpenDeCoder.UI
         private bool IsStrangePattern(string pattern)
         {
             int length = pattern.Length;
-            if (length < 4)
+            if (length < 4 || length > 1000)
             { return true; } //drop everything with a length 3 or less
             char c; //subchar used in for-loop
             for (int i = 0; i < length; ++i)
